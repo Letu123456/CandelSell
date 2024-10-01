@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using SADA.Core.Constants
+@{
+    var user = HttpContextAccessor.HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser);
+}
+@* <ul class="navbar-nav "> *@
+@if(user != null)
+{
+    @* <div class="btn-group " >
+
+        <a  aria-haspopup="true" aria-expanded="false" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            @user.Name
+            
+        </a>
+        </div>
+        <div class="btn-group ">
+
+        <form  aria-haspopup="true" aria-expanded="false" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit">Logout</button>
+        </form>
+        </div> *@
+    <div class="btn-group">
+        <!-- Username triggers the dropdown -->
+        <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @user.Name
+        </a>
+
+        <!-- Dropdown menu for Logout -->
+        <div class="dropdown-menu dropdown-menu-right">
+            <form method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button class="dropdown-item" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+    
+}
+else
+{
+    <div class="btn-group ">
+
+        <a  aria-haspopup="true" aria-expanded="false" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </div>
+    <div class="btn-group ">
+
+        <a  aria-haspopup="true" aria-expanded="false" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </div>
+    
+}

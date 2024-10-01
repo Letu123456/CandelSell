@@ -1,0 +1,187 @@
+﻿@model ShoppingCartVM
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+@* <form method="post">
+	<br />
+	<div class="container">
+		<div class="card bg-light">
+			<div class="card-header bg-dark text-light ml-0">
+				<div class="row">
+					<div class="col-6  pt-2">
+						<i class="fa fa-shopping-cart"></i> &nbsp;
+						Shopping Cart
+					</div>
+					<div class="col-6 text-end">
+						<a asp-controller="Home" asp-action="Index" class="btn btn-info btn-sm">Continue Shopping</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="card-body">
+				@foreach(var item in Model.ListCart){
+					<div class="row">
+						<div class="d-none d-lg-block col-lg-1 text-center py-2">
+							<img src=@item.Product.CoverUrl class="rounded" width="100%" />
+						</div>
+						<div class="col-12 col-lg-6 pt-md-3">
+							<h5><strong>@item.Product.Name</strong></h5>
+							<p>
+								<small><input type="color" value=@item.Color disabled /></small>
+								<small>@item.Size</small>
+							</p>
+						</div>
+						<div class="col-12  col-lg-5 text-center row">
+							<div class="col-4 text-md-right pt-4">
+								<h6><strong>LE @item.Price.ToString("N")<span class="text-muted">&nbspx</span>@item.Count</strong></h6>
+							</div>
+							<div class="col-6 col-sm-4 col-lg-6 pt-2">
+								<div class="w-75 btn-group" role="group">
+									<a asp-action="Plus" asp-route-cartId="@item.Id" class="btn btn-outline-light">
+										<i class="bi bi-plus-square"></i>
+									</a> &nbsp;
+									<a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-outline-dark">
+										<i class="bi bi-dash-square"></i>
+									</a>
+								</div>
+
+							</div>
+							<div class="col-2 col-sm-4 col-lg-2 text-right pt-2">
+								<a asp-action="Remove"  asp-route-cartId="@item.Id" class="btn btn-outline-danger">
+									<i class="bi bi-trash-fill"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+					<hr />
+				}
+
+				<div class="row">
+					<div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+						<ul class="list-group">
+							<li class="list-group-item d-flex justify-content-between bg-light">
+								<span class="text-info"> Total (LE)</span>
+								<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("N")</strong>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="card-footer">
+				<div class="card-footer row">
+					<div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+						<a asp-action="Summary" class="btn btn-outline-success form-control">PROCEED TO SUMMARY</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form> *@
+<form method="post">
+
+
+	<div class="ps-hero bg--cover" data-background="@Url.Content("~/Admin/images/hero/bread-1.jpg")">
+		<img src="~/Admin/images/hero/contact-us.html" alt="">
+		<div class="ps-container">
+			<h3>Shopping Cart</h3>
+			<div class="ps-breadcrumb">
+				<ol class="breadcrumb">
+					<li>Home</li>
+					<li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+			</div>
+			</div>
+<div class="ps-content">
+    <div class="ps-container">
+        <div class="ps-cart-listing">
+            <table class="table ps-cart__table">
+                <thead>
+                    <tr>
+                        <th>All Products</th>
+						<th>Color</th>
+					    <th>Size</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+					@foreach(var item in Model.ListCart){
+                    <tr>
+						<td ><a class="ps-product--compare" href="product-detail.html"><img class="mr-15" src="~/Admin/images/product/@item.Product.CoverUrl" alt="">@item.Product.Name</a></td>
+
+								<td>
+									
+										<input type="color" value=@item.Color disabled />
+									
+									</td>
+								
+								<td >@item.Size</td>
+								<td >@item.Price.ToString("N") x @item.Count</td>
+								<td >
+									
+                            <div class="form-group--number">
+								@* <form asp-action="Minus" asp-route-cartId="@item.Id" method="post">
+										<button class="minus"><span>-</span></button>
+										</form>
+                                <input class="form-control" type="text" value="@item.Count">
+								<form asp-action="Plus" asp-route-cartId="@item.Id" method="post">
+										<button class="plus"><span>+</span></button>
+
+										</form> *@
+
+										<a asp-action="Plus" asp-route-cartId="@item.Id" class="btn btn-outline-light">
+											<i class="bi bi-plus-square"></i>
+										</a> &nbsp;
+										
+										<a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-outline-dark">
+											<i class="bi bi-dash-square"></i>
+										</a>
+                            </div>
+                        </td>
+								<td >@(item.Price * item.Count)</td>
+                        <td>
+                            <div class="ps-remove"><a asp-action="Remove"  asp-route-cartId="@item.Id"></a></div>
+                        </td>
+                    </tr>
+                    }
+                    
+                </tbody>
+            </table>
+            <div class="ps-cart__actions">
+                <div class="ps-cart__promotion">
+                    <div class="form-group">
+                        <div class="ps-form--icon">
+                            <i class="fa fa-angle-right"></i>
+                            <input class="form-control" type="text" placeholder="Promo Code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+							<a asp-controller="Home" asp-action="Index" class="btn ps-btn ps-btn--gray">Continue Shopping</a>
+                        @* <button class="ps-btn ps-btn--gray">Continue Shopping</button> *@
+                    </div>
+                </div>
+                <div class="ps-cart__total">
+						<h3>Total Price: <span> @Model.OrderHeader.OrderTotal.ToString("N")</span></h3><a asp-action="Summary" class="ps-btn">Process to checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ps-partners">
+    <div class="ps-container">
+			<div class="ps-slider--partners owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="50" data-owl-nav="false" data-owl-dots="false" data-owl-item="7" data-owl-item-xs="3" data-owl-item-sm="5" data-owl-item-md="6" data-owl-item-lg="7" data-owl-duration="1000" data-owl-mousedrag="on"><img src="~/Admin/images/partner/1.png" alt=""><img src="~/Admin/images/partner/2.png" alt=""><img src="~/Admin/images/partner/3.png" alt=""><img src="~/Admin/images/partner/4.png" alt=""><img src="~/Admin/images/partner/5.png" alt=""><img src="~/Admin/images/partner/6.png" alt=""><img src="~/Admin/images/partner/7.png" alt=""></div>
+    </div>
+</div>
+</form>
+
+
+@section Scripts{
+	@{ //apply validation without reload server
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

@@ -1,0 +1,217 @@
+﻿@model ProductVM 
+@{
+    ViewData["Title"] = Model.Product.Id!=0?"Edit Product":"Add Product";
+}
+
+<form method="post"  enctype="multipart/form-data">
+	
+	<input asp-for="Product.Id" hidden /> 
+	<input asp-for="Product.CoverUrl" hidden /> 
+
+	<div class="row">
+		<div class="col-10">
+			<div class="border p-3 mt-2">
+				<div class="card p-3 mt-2">
+					<div class="col-12">
+						<h2 class="mb-3 col-md-10">@ViewData["Title"]</h2>
+						<h6 style="text-align:right"><a asp-action="Index">Back to List</a></h6>
+					</div>
+
+					<div class="mb-3">
+						<label asp-for="Product.CoverUrl"></label>
+						<input type="file" id="uploadBox" name="cover" class="form-control" /> @*name for controller*@
+					</div>
+
+					<div class="row">
+						<div class="mb-3 col-md-8">
+							<label asp-for="Product.Name"></label>
+							<input asp-for="Product.Name" class="form-control" />
+							<span asp-validation-for="Product.Name" class="text-danger"></span> 
+						</div>
+						<div class="mb-3 col-md-4">
+							<label asp-for="Product.CategoryId"></label>
+							<select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-control">
+								<option disabled selected>--Select Category--</option>
+							</select>
+							<span asp-validation-for="Product.CategoryId" class="text-danger"></span> 
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="mb-3 col-md-6">
+							<label asp-for="Product.Price"></label>
+							<input asp-for="Product.Price" class="form-control" id="price"/>
+							<span asp-validation-for="Product.Price" class="text-danger"></span> 
+						</div>
+
+						<div class="mb-3 col-md-6">
+							<label asp-for="Product.StockCount"></label>
+							<input asp-for="Product.StockCount" class="form-control" />
+							<span asp-validation-for="Product.StockCount" class="text-danger"></span> 
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="mb-3 checkbox">
+							<input type="checkbox" asp-for="Product.OnSale" id="onSale"/>
+							<label asp-for="Product.OnSale"></label>
+						</div>
+					</div>
+
+					@{var display="none";}
+					@if(@Model.Product.OnSale)
+					{
+						display = "flex";
+					}
+					<div class="row" id="disscount" style="display:@display">
+						<div class="mb-3 col-md-2">
+							<label asp-for="Product.DiscountPercentage"></label>
+							<input asp-for="Product.DiscountPercentage" id="percentage" class="form-control"/>
+							<span asp-validation-for="Product.DiscountPercentage" class="text-danger"></span> 
+						</div>
+						<div class="mb-3 col-md-2">
+							<label asp-for="Product.DiscountAmount"></label>
+							<input asp-for="Product.DiscountAmount" id="amount" class="form-control"/>
+							<span asp-validation-for="Product.DiscountAmount" class="text-danger"></span> 
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label asp-for="Product.Colors"></label>
+						<p id="ColorList">
+							<input type="button" id="AddColorsPicker" value="+">
+							@foreach(var color in Model.Product.Colors){
+								<input type="color" name="colors" value=@color.HashValue />
+							}
+						</p>
+					</div>
+
+					<div class="mb-3">
+						<label asp-for="Product.Sizes"></label>
+						<p id="sizesList">
+							<input type="button" id="AddSize" value="+">
+							@foreach(var size in Model.Product.Sizes){
+								<input type="text" name="sizes" value=@size.Size />
+							}
+						</p>
+					</div>
+					
+					<div class="mb-3">
+						<label asp-for="Product.Imaages"></label>
+						<p id="images">
+							<input type="button" id="AddImage" value="+">
+						</p>
+						@foreach(var img in Model.Product.Imaages){
+							<img src="@img.ImageUrl" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+						}
+					</div>
+
+					<div class="mb-3">
+						<label asp-for="Product.Description"></label>
+						<textarea asp-for="Product.Description" row="10" class="form-control"></textarea>
+						<span asp-validation-for="Product.Description" class="text-danger"></span>
+					</div>
+
+					<br />
+					@if(Model.Product.Id != 0)
+					{
+						<button type="submit" class="btn btn-outline-primary" style="width:150px">Update</button>
+					}
+					else
+					{
+						<button type="submit" onclick="return UploadImage()" class="btn btn-outline-primary" style="width:150px">Add</button>
+					}
+				</div>
+			</div>
+		</div>
+
+		@*show image*@
+		@if(Model.Product.CoverUrl != null){
+			<div class="col-2 pt-4">
+					<img src="@Model.Product.CoverUrl" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+			</div>
+		}
+	</div>
+
+</form>
+
+@section Scripts{
+	@{ //apply validation without reload server
+		<partial name="_ValidationScriptsPartial" />
+	}
+	<script>
+		//validate image 
+		function UploadImage(){
+			if(document.getElementById("uploadBox").value == ""){
+				swal("Oops...!", "Please Upload an Image", "error");
+				return false;
+			}
+			return true;
+		}
+
+		//-----------------------------------------------
+		document.getElementById("onSale").onclick = function() { 
+			var element = document.getElementById("disscount");
+			if(element.style.display == "none"){
+				element .style.display = "flex";
+			}else{
+				element .style.display = "none";
+			}
+		};
+
+		//track changes
+		$('#price').keyup(function() {
+			$('#amount').val($(this).val() * $('#percentage').val()/100);
+		});
+		
+		$('#percentage').keyup(function() {
+			$('#amount').val($('#price').val() * $(this).val()/100);
+		});
+		
+		$('#amount').keyup(function() {
+			$('#percentage').val($(this).val()*100 / $('#price').val());
+		});
+
+		//-----------------------------------------------
+		function AddColors(){	
+			var element	= document.createElement("input");
+			element.type = "color";
+			element.value = "#ffffff";
+			element.name = "colors";
+
+			const styleAtr = document.createAttribute("style");
+			styleAtr.value = "margin:3px" 
+			element.setAttributeNode(styleAtr);
+
+			document.getElementById("ColorList").append(element);
+		}
+		document.getElementById("AddColorsPicker").onclick = function() { AddColors(); };
+		
+		function AddSizes(){	
+			var element = document.createElement("input");
+			element.type = "text";
+			element.value = "XL";
+			element.name = "sizes";
+
+			const styleAtr = document.createAttribute("style");
+			styleAtr.value = "margin:3px" 
+			element.setAttributeNode(styleAtr);
+
+			document.getElementById("sizesList").append(element);
+		}
+		document.getElementById("AddSize").onclick = function() { AddSizes(); };
+
+		function AddImages(){	
+			var element = document.createElement("input");
+			element.type = "file";
+			element.name = "images";
+
+			const styleAtr = document.createAttribute("style");
+			styleAtr.value = "margin:3px" 
+			element.setAttributeNode(styleAtr);
+
+			document.getElementById("images").append(element);
+		}	
+		document.getElementById("AddImage").onclick = function() { AddImages(); };
+	</script>
+}

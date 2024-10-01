@@ -1,0 +1,282 @@
+﻿@model ShoppingCartVM
+@using SADA.Service
+@using Microsoft.Extensions.Options
+@inject IOptions<SADA.Core.Settings.StripeSetting> Stripe
+@{
+    ViewData["Title"] = "Order Summary";
+}
+@* <form method="post">
+	<br />
+	<input hidden asp-for="OrderHeader.OrderTotal" />
+
+	<div class="container">
+		<div class="card bg-light">
+			<div class="card-header bg-dark text-light ml-0">
+				<div class=" row container">
+					<div class="col-6">
+						<i class="fa fa-shopping-cart"></i> &nbsp;
+						Order Summary
+					</div>
+					<div class="col-6 text-end">
+						<a asp-action="Index" class="btn btn-outline-info btn-sm">Back to Cart</a>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="container rounded p-2">
+
+					<div class="row">
+						<div class="col-12 col-lg-6 pb-4">
+							<div class="row">
+								<h4 class="d-flex justify-content-between align-items-center mb-3">
+									<span class="text-info">Shipping Details:</span>
+								</h4>
+							</div>
+							<div class="row my-1">
+								<div class="col-3">
+									<label>Name</label>
+								</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.Name" class="form-control" />
+								</div>
+							</div>
+							<div class="row my-1">
+								<div class="col-3">
+									<label>Phone</label>
+								</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.PhoneNumber" class="form-control" />
+								</div>
+							</div>
+							<div class="row my-1">
+								<div class="col-3">
+									<label>Address</label>
+								</div>
+								<div class="col-9">
+									<input asp-for="OrderHeader.StreetAddress" class="form-control" />
+								</div>
+							</div>
+
+
+							<div class="row my-1">
+								<div class="col-3">
+									<label>Governorates</label>
+								</div>
+								<div class="col-9">
+									<select asp-items="@Model.Governorates" class="form-control">
+										<option disabled selected>----</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="row my-1">
+								<div class="col-3">
+									<label>Cities</label>
+								</div>
+								<div class="col-9">
+									<select asp-for="OrderHeader.CityId" asp-items="@Model.Cities" class="form-control">
+										<option disabled selected>----</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="row my-1">
+								<div class="col-3">
+									<label>Payment Method</label>
+								</div>
+								<div class="col-9">
+									<select asp-for="OrderHeader.PaymentMethodId" asp-items="@Model.PaymentMethod" class="form-control">
+										<option disabled selected>--Select A Payment Method--</option>
+									</select>
+								</div>
+								<span asp-validation-for="OrderHeader.PaymentMethodId" class="text-danger"></span> 
+							</div>
+
+							<br />
+						</div>
+
+						<div class="col-12 col-lg-5 offset-lg-1">
+							<h4 class="d-flex justify-content-between align-items-center mb-3">
+								<span class="text-info">Order Summary:</span>
+							</h4>
+							<ul class="list-group mb-3">
+								@foreach(var item in Model.ListCart){
+									<li class="list-group-item d-flex justify-content-between">
+										<div>
+											<h6 class="my-0">@item.Product.Name</h6>
+											<small class="text-muted">Quantity:@item.Count</small><br>
+											<small class="text-muted">Price: LE @item.Price.ToString("N")</small>
+										</div>
+										<span class="text-muted">EGP&nbsp@((item.Price*item.Count).ToString("N"))</span>
+									</li>
+								}
+								
+								<li class="list-group-item d-flex justify-content-between bg-light">
+									<small class="text-info">Total</small>
+									<strong class="text-info">EGP&nbsp @Model.OrderHeader.OrderTotal.ToString("N")</strong>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="row">
+					<div class="col-12 col-md-8 pt-2">
+						<p style="color:maroon; font-size:14px;">Estimate Arrival Date: 
+							@DateTime.Now.AddDays(3).ToString("dd/MM/yyyy") - @DateTime.Now.AddDays(10).ToString("dd/MM/yyyy")
+						</p>
+					</div>
+					<div class="col-12 col-md-4">
+						<button type="submit" value="Place Order" class="btn btn-outline-dark form-control">Place Order</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form> *@
+
+@* Another part *@
+
+<form method="post">
+	<br />
+	<input hidden asp-for="OrderHeader.OrderTotal" />
+
+<div class="ps-hero bg--cover" data-background="@Url.Content("~/Admin/images/hero/bread-1.jpg")">
+    <div class="ps-container">
+        <h3>Check out</h3>
+        <div class="ps-breadcrumb">
+            <ol class="breadcrumb">
+                <li><a href="index-2.html">Home</a></li>
+                <li class="active">Check out</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="ps-checkout">
+    <div class="ps-container">
+        <div class="ps-form--checkout" >
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
+                    <div class="ps-checkout__billing">
+                        <h3>Billing Details</h3>
+                       
+                        <div class="form-group form-group--inline">
+                            <label>
+                                 Name<span>*</span>
+                            </label>
+                            <div class="form-group__content">
+                               
+                                <input asp-for="OrderHeader.Name" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Phone<span>*</span>
+                            </label>
+                            <div class="form-group__content">
+                                <input asp-for="OrderHeader.PhoneNumber" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Address<span>*</span>
+                            </label>
+                            <div class="form-group__content">
+                                <input asp-for="OrderHeader.StreetAddress" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Governorates<span>*</span>
+                            </label>
+                            <div class="form-group__content">
+                                <select asp-items="@Model.Governorates" class="form-control">
+                                    <option disabled selected>----</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Cities<span>*</span>
+                            </label>
+                            <div class="form-group__content">
+                                <select asp-for="OrderHeader.CityId" asp-items="@Model.Cities" class="form-control">
+                                    <option disabled selected>----</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group form-group--inline">
+                            <label>
+                                Payment Method<span>*</span>
+                            </label>
+                            <div class="form-group__content">
+                                <select asp-for="OrderHeader.PaymentMethodId" asp-items="@Model.PaymentMethod" class="form-control">
+                                    <option disabled selected>--Select A Payment Method--</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="OrderHeader.PaymentMethodId" class="text-danger"></span>
+                        </div>
+                        
+                      
+                            <div class="col-12 col-md-8 pt-2">
+                                <p style="color:maroon; font-size:14px;">
+                                    Estimate Arrival Date:
+                                    @DateTime.Now.AddDays(3).ToString("dd/MM/yyyy") - @DateTime.Now.AddDays(10).ToString("dd/MM/yyyy")
+                                </p>
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                    <div class="ps-checkout__order" style="height:380px;">
+                        <header>
+                            <h3>Your Order</h3>
+                        </header>
+                        <div class="content">
+                            <table class="table ps-checkout__products">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase">Product</th>
+                                        <th class="text-uppercase">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                       
+                                        @foreach (var item in Model.ListCart)
+                                        {
+                                    <tr>
+                                                <td>@item.Product.Name x @item.Count</td>
+                                                <td>@((item.Price * item.Count).ToString("N"))</td>
+                                    </tr>
+                                        }
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <footer>
+                           
+                                <li class="list-group-item d-flex justify-content-between bg-light">
+                                    <small class="text-info">Total</small>
+                                    <strong class="text-info">EGP&nbsp @Model.OrderHeader.OrderTotal.ToString("N")</strong>
+                                </li>
+
+                            <button type="submit" value="Place Order" class="ps-btn ps-btn--fullwidth">Place Order</button>
+                        </footer>
+                   
+                    <div class="ps-shipping">
+                        <h3>FREE SHIPPING</h3>
+                        <p>YOUR ORDER QUALIFIES FOR FREE SHIPPING.<br> <a href="#"> Singup </a> for free shipping on every order, every time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ps-partners">
+    <div class="ps-container">
+            <div class="ps-slider--partners owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="50" data-owl-nav="false" data-owl-dots="false" data-owl-item="7" data-owl-item-xs="3" data-owl-item-sm="5" data-owl-item-md="6" data-owl-item-lg="7" data-owl-duration="1000" data-owl-mousedrag="on"><img src="~/Admin/images/partner/1.png" alt=""><img src="~/Admin/images/partner/2.png" alt=""><img src="~/Admin/images/partner/3.png" alt=""><img src="~/Admin/images/partner/4.png" alt=""><img src="~/Admin/images/partner/5.png" alt=""><img src="~/Admin/images/partner/6.png" alt=""><img src="~/Admin/images/partner/7.png" alt=""></div>
+    </div>
+</div>
+
+        </form>

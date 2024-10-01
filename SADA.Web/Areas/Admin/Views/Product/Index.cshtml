@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Product List</h2>
+		</div>
+        <div class="col-6 text-end">
+            <a asp-controller="Product" asp-action="ProductForm" class="btn btn-outline-light">
+               <i class="bi bi-plus-circle"></i> &nbsp; Add New 
+			</a>
+		</div>
+	</div>
+    <br /><br />
+    
+    <table  id="tblData"  class="table cell-border  table-hover" style="width:100%">
+    <thead>
+        <tr class="table-info">
+            <th>Cover Photo</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Original Price</th>
+            <th>Discount</th>
+            <th>Category</th>
+            <th></th>
+		</tr>
+	</thead>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="~/js/DataTables/productDataTable.js"></script>
+}
+

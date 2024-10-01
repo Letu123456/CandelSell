@@ -1,0 +1,405 @@
+﻿@* @model ShoppingCart
+@{
+    ViewData["Title"] = Model.Product.Name;
+}
+<form method="post">
+    <input hidden asp-for="ProductId" />
+    <input hidden asp-for="UserId" />
+
+    <div class="card bg-light container pt-4">
+        <div class="card-header bg-dark text-light row ">
+            <div class="col-12 col-md-6">
+                <h1 class="text-white-50">@Model.Product.Name</h1>
+            </div>
+        </div>
+        <div class="card-body row container">
+            <div class="container rounded p-2">
+                <div class="row">
+                    <div class="col-8 col-lg-8">
+                        <div class="row pl-2">
+                            <h5 class="text-muted pb-2">
+                                @if (Model.Product.OnSale)
+                                {
+                                    <input asp-for="Price" hidden value=@(Model.Product.Price - Model.Product.DiscountAmount)/>
+                                    <strike>LE @Model.Product.Price.ToString("N")  </strike>
+                                    <text>LE @(Model.Product.Price - Model.Product.DiscountAmount)  </text>
+                                    <span class="text-danger"><small>Save LE @Model.Product.DiscountAmount</small></span>
+                                }
+                                else
+                                {
+                                    <input asp-for="Price" hidden value=@Model.Product.Price/>
+                                    <text>LE @Model.Product.Price </text>
+                                }
+                            </h5>
+                        </div>
+
+                        <div class="row pl-2">
+                            <div class="col-2 text-primary"><h4>SIZE</h4></div>
+                            <div class="col-10 pl-2">
+                                @foreach(var size in @Model.Product.Sizes)
+                                {
+                                  <input asp-for="Size" type="radio" value=@size.Size name="size"/>
+                                  <label> @size.Size</label><br />   
+                                }
+							    <span asp-validation-for="Size" class="text-danger"></span> 
+                            </div>
+                        </div>
+
+                        <br />
+                         <div class="row pl-2">
+                            <div class="col-2 text-primary"><h4>Color</h4></div>
+                            <div class="col-10 pl-2">
+                                @foreach(var color in @Model.Product.Colors)
+                                {
+                                  <input asp-for="Color" type="radio" value=@color.HashValue name="color"/>
+                                  <input type="color" value=@color.HashValue disabled/><br />
+                                }
+							    <span asp-validation-for="Color" class="text-danger"></span> 
+                            </div>
+                        </div>
+
+                        <div class="row pl-2">
+                            <p>@Model.Product.Description</p>
+                        </div>
+         
+                    </div>
+                    <div class="col-12 col-lg-3 offset-lg-1 text-center">
+                        <img src="@Model.Product.CoverUrl" width="100%" class="rounded" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <button type="submit" value="Add to Cart" class="btn btn-outline-dark form-control"
+                    style="height:50px;width:50%">
+                        ADD TO Cart &nbsp &ensp;
+                    </button>
+                    <input asp-for="Count" id="count" style="width:50px" class="text-center" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+	@{ //apply validation without reload server
+		<partial name="_ValidationScriptsPartial" />
+	}
+} *@
+@model ShoppingCart
+@{
+    ViewData["Title"] = Model.Product.Name;
+}
+
+<div class="ps-hero bg--cover" data-background="@Url.Content("~/Admin/images/product/item30.png")" >
+    <div class="ps-container">
+        <h3>Shop Page</h3>
+        <div class="ps-breadcrumb">
+            <ol class="breadcrumb">
+                <li>Home</li>
+                <li class="active">Shop Page</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<main class="ps-main">
+    <div class="ps-container">
+        <div class="ps-product--detail">
+            <form method="post">
+                <input hidden asp-for="ProductId" />
+                <input hidden asp-for="UserId" />
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-12 col-xs-12 ">
+                    <div class="ps-product__thumbnail">
+                        <div class="ps-product__image">
+                                <div class="item"><a href="~/Admin/images/product/@Model.Product.CoverUrl"><img src="~/Admin/images/product/@Model.Product.CoverUrl" alt="" style="width: 100%; height: auto; object-fit: cover;">></a></div>
+                                <div class="item"><a href="~/Admin/images/product/detail/large-2.jpg"><img src="~/Admin/images/product/item16.jpg" alt=""></a></div>
+                                <div class="item"><a href="~/Admin/images/product/detail/large-3.jpg"><img src="~/Admin/images/product/item17.jpg" alt=""></a></div>
+                                <div class="item"><a href="~/Admin/images/product/detail/large-4.jpg"><img src="~/Admin/images/product/item19.jpg" alt=""></a></div>
+                                <div class="item"><a href="~/Admin/images/product/detail/large-5.jpg"><img src="~/Admin/images/product/item20.jpg" alt=""></a></div>
+                        </div>
+                        <div class="ps-product__preview">
+                            <div class="ps-product__variants">
+                                    <div class="item"><img src="~/Admin/images/product/item16.jpg" alt="" style="width: 100%; height: 50px; object-fit: cover;"></div>
+                                    <div class="item"><img src="~/Admin/images/product/item17.jpg" alt="" style="width: 100%; height: 50px; object-fit: cover;"></div>
+                                    <div class="item"><img src="~/Admin/images/product/item18.jpg" alt="" style="width: 100%; height: 50px; object-fit: cover;"></div>
+                                    <div class="item"><img src="~/Admin/images/product/item19.jpg" alt="" style="width: 100%; height: 50px; object-fit: cover;"></div>
+                                    <div class="item"><img src="~/Admin/images/product/item20.jpg" alt="" style="width: 100%; height: 50px; object-fit: cover;"></div>
+                            </div>
+                                <div class="ps-video"><a class="popup-youtube ps-product__video" href="https://www.youtube.com/watch?v=meBbDqAXago"><img src="~/Admin/images/product/detail/variant-5.jpg" alt=""><i class="fa fa-play"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12 ">
+                    <div class="ps-product__info">
+                        <div class="ps-product__rating">
+                            <select class="ps-rating">
+                                <option value="1">1</option>
+                                <option value="1">2</option>
+                                <option value="1">3</option>
+                                <option value="1">4</option>
+                                <option value="2">5</option>
+                            </select><a href="#">(Read all 8 reviews)</a>
+                        </div>
+
+                            <h1>@Model.Product.Name</h1>
+                        <p class="ps-product__category"><a href="#">  Men shoes Table home</a>,<a href="#">  Chair</a>,<a href="#">  Sofa & Chair</a></p>
+                        <h3 class="ps-product__price">
+                             @if (Model.Product.OnSale)
+                                {
+                                    <input asp-for="Price" hidden value=@(Model.Product.Price - Model.Product.DiscountAmount) />
+                                    <del><span>@Model.Product.Price.ToString("N")  </span></del>
+                                    <span>@(Model.Product.Price - Model.Product.DiscountAmount)</span>
+
+                             }
+                             else
+
+                            {
+                                <input asp-for="Price" hidden value=@Model.Product.Price />
+                                <span>@Model.Product.Price</span> 
+                        
+                            }
+                        </h3>
+                        <div class="ps-product__short-desc">
+                            <p>Stow linens and serveware in the dining room or add extra storage space to the entryway with this auburn cherry-finished cabinet ...</p>
+                        </div>
+                       
+                                <div class="ps-product__block ps-product__style">
+                                    <h4>CHOOSE YOUR COLOR</h4>
+
+                                    @foreach (var color in @Model.Product.Colors)
+                                    {
+
+                                        <input  asp-for="Color" type="radio"  value=@color.HashValue name="color" />
+                                        <input type="color" value=@color.HashValue disabled />
+
+                                    }
+                                </div>
+                             
+
+                        <div class="ps-product__block ps-product__size">
+                           
+                            <h4>CHOOSE SIZE & QUANTITY</h4>
+
+
+                                <select asp-for="Size" class="ps-select  selectpicker " title="Select Size">
+                                    @foreach (var size in @Model.Product.Sizes)
+                                    {
+                                        <option   value="@size.Size">@size.Size</option>
+                                    }
+                               </select>
+                            
+                            <div class="form-group ps-number">
+                                    <input asp-for="Count" class="form-control" type="text" value="1"><span class="up"></span><span class="down"></span>
+                            </div>
+                        </div>
+                        <div class="ps-product__shopping">
+                                <button type="submit" value="Add to Cart" class="ps-btn">Add To Cart</button>
+                            <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="furniture-heart"></i></a><a href="compare.html" title="Compare"><i class="furniture-reload"></i></a></div>
+                        </div>
+                        <div class="ps-product__sharing">
+                            <p>Share this:<a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-dribbble"></i></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</form>
+            <div class="ps-product__content">
+                <ul class="tab-list" role="tablist">
+                    <li class="active"><a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a></li>
+                    <li><a href="#tab_02" aria-controls="tab_02" role="tab" data-toggle="tab">Review</a></li>
+                    <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">PRODUCT TAGs</a></li>
+                    <li><a href="#tab_04" aria-controls="tab_04" role="tab" data-toggle="tab">ADDITIONAL</a></li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" role="tabpanel" id="tab_01">
+                    <p>Caramels tootsie roll carrot cake sugar plum. Sweet roll jelly bear claw liquorice. Gingerbread lollipop dragée cake. Pie topping jelly-o. Fruitcake dragée candy canes tootsie roll. Pastry jelly-o cupcake. Bonbon brownie soufflé muffin.</p>
+                    <p>Sweet roll soufflé oat cake apple pie croissant. Pie gummi bears jujubes cake lemon drops gummi bears croissant macaroon pie. Fruitcake tootsie roll chocolate cake Carrot cake cake bear claw jujubes topping cake apple pie. Jujubes gummi bears soufflé candy canes topping gummi bears cake soufflé cake. Cotton candy soufflé sugar plum pastry sweet roll..</p>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab_02">
+                    <p>1 review for <strong>Shoes Air Jordan</strong></p>
+                    <div class="ps-review">
+                        <div class="ps-review__thumbnail"><img src="images/user/1.jpg" alt=""></div>
+                        <div class="ps-review__content">
+                            <header>
+                                <select class="ps-rating">
+                                    <option value="1">1</option>
+                                    <option value="1">2</option>
+                                    <option value="1">3</option>
+                                    <option value="1">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <p>By<a href="#"> Alena Studio</a> - November 25, 2017</p>
+                            </header>
+                            <p>Soufflé danish gummi bears tart. Pie wafer icing. Gummies jelly beans powder. Chocolate bar pudding macaroon candy canes chocolate apple pie chocolate cake. Sweet caramels sesame snaps halvah bear claw wafer. Sweet roll soufflé muffin topping muffin brownie. Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
+                        </div>
+                    </div>
+                    <form class="ps-form--product-review" action="http://warethemes.com/html/flourish/do_action" method="post">
+                        <h4>ADD YOUR REVIEW</h4>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label>Name:<sup>*</sup></label>
+                                    <input class="form-control" type="text" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email:<sup>*</sup></label>
+                                    <input class="form-control" type="email" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label>Your rating</label>
+                                    <select class="ps-rating">
+                                        <option value="1">1</option>
+                                        <option value="1">2</option>
+                                        <option value="1">3</option>
+                                        <option value="1">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 ">
+                                <div class="form-group">
+                                    <label>Your Review:</label>
+                                    <textarea class="form-control" rows="6"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button class="ps-btn">Submit Reviews</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab_03">
+                    <p>Add your tag <span> *</span></p>
+                    <form class="ps-form--create-tags" action="http://warethemes.com/html/flourish/_action" method="post">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="">
+                            <button class="ps-btn">Add Tags</button>
+                        </div>
+                    </form>
+                    <p>Use spaces to separate tags. Use single quotes ( * ) for phrases.</p>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab_04">
+                    <form class="ps-form--addition" action="http://warethemes.com/html/flourish/do_action" method="post">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="6" placeholder="Enter your addition here..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="ps-btn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div class="ps-section ps-home-promotions">
+    <div class="ps-container">
+        <div class="ps-section__header text-center">
+            <p>Here are key products that bring fashionistas to Furniture Store.</p>
+            <h3 class="ps-section__title">YOU MIGHT ALSO LIKE</h3><span class="ps-section__line"></span>
+        </div>
+        <div class="ps-section__content">
+            <div class="ps-slider--center owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="off">
+                <div class="ps-product">
+                    <div class="ps-product__thumbnail">
+                        <div class="ps-badge"><span>New</span></div>
+                        <div class="ps-badge ps-badge--sale"><span>-35%</span></div><a class="ps-product__favorite" href="#"><i class="furniture-heart"></i></a><img src="images/product/Item-1.jpg" alt=""><a class="ps-product__overlay" href="product-detail.html"></a>
+                    </div>
+                    <div class="ps-product__content">
+                        <select class="ps-rating">
+                            <option value="1">1</option>
+                            <option value="1">2</option>
+                            <option value="1">3</option>
+                            <option value="1">4</option>
+                            <option value="2">5</option>
+                        </select><a class="ps-product__title" href="product-detail-2.html">VEDBO Version 2018</a>
+                        <div class="ps-product__categories"><a href="product-listing.html">Armchair</a></div>
+                        <p class="ps-product__price">
+                            <del>£220</del>£120
+                        </p>
+                    </div>
+                </div>
+                <div class="ps-product">
+                    <div class="ps-product__thumbnail">
+                        <a class="ps-product__favorite" href="#"><i class="furniture-heart"></i></a><img src="images/product/Item-2.jpg" alt=""><a class="ps-product__overlay" href="product-detail.html"></a>
+                    </div>
+                    <div class="ps-product__content">
+                        <select class="ps-rating">
+                            <option value="1">1</option>
+                            <option value="1">2</option>
+                            <option value="1">3</option>
+                            <option value="1">4</option>
+                            <option value="2">5</option>
+                        </select><a class="ps-product__title" href="product-detail-2.html">VEDBO Version 2018</a>
+                        <div class="ps-product__categories"><a href="product-listing.html">Armchair</a></div>
+                        <p class="ps-product__price">
+                            <del>£220</del>£120
+                        </p>
+                    </div>
+                </div>
+                <div class="ps-product">
+                    <div class="ps-product__thumbnail">
+                        <div class="ps-badge ps-badge--sale"><span>-35%</span></div><a class="ps-product__favorite" href="#"><i class="furniture-heart"></i></a><img src="images/product/Item-3.jpg" alt=""><a class="ps-product__overlay" href="product-detail.html"></a>
+                    </div>
+                    <div class="ps-product__content">
+                        <select class="ps-rating">
+                            <option value="1">1</option>
+                            <option value="1">2</option>
+                            <option value="1">3</option>
+                            <option value="1">4</option>
+                            <option value="2">5</option>
+                        </select><a class="ps-product__title" href="product-detail-2.html">VEDBO Version 2018</a>
+                        <div class="ps-product__categories"><a href="product-listing.html">Armchair</a></div>
+                        <p class="ps-product__price">
+                            <del>£220</del>£120
+                        </p>
+                    </div>
+                </div>
+                <div class="ps-product">
+                    <div class="ps-product__thumbnail">
+                        <div class="ps-badge"><span>New</span></div>
+                        <div class="ps-badge ps-badge--sale"><span>-35%</span></div><a class="ps-product__favorite" href="#"><i class="furniture-heart"></i></a><img src="images/product/Item-4.jpg" alt=""><a class="ps-product__overlay" href="product-detail.html"></a>
+                    </div>
+                    <div class="ps-product__content">
+                        <select class="ps-rating">
+                            <option value="1">1</option>
+                            <option value="1">2</option>
+                            <option value="1">3</option>
+                            <option value="1">4</option>
+                            <option value="2">5</option>
+                        </select><a class="ps-product__title" href="product-detail-2.html">VEDBO Version 2018</a>
+                        <div class="ps-product__categories"><a href="product-listing.html">Armchair</a></div>
+                        <p class="ps-product__price">
+                            <del>£220</del>£120
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ps-partners">
+    <div class="ps-container">
+        <div class="ps-slider--partners owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="50" data-owl-nav="false" data-owl-dots="false" data-owl-item="7" data-owl-item-xs="3" data-owl-item-sm="5" data-owl-item-md="6" data-owl-item-lg="7" data-owl-duration="1000" data-owl-mousedrag="on"><img src="~/Admin/images/partner/1.png" alt=""><img src="~/Admin/images/partner/2.png" alt=""><img src="~/Admin/images/partner/3.png" alt=""><img src="~/Admin/images/partner/4.png" alt=""><img src="~/Admin/images/partner/5.png" alt=""><img src="~/Admin/images/partner/6.png" alt=""><img src="~/Admin/images/partner/7.png" alt=""></div>
+    </div>
+</div>
+
+
+
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+
+
+@section Scripts {
+    @{
+        //apply validation without reload server
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

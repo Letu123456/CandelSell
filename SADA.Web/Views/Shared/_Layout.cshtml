@@ -1,0 +1,301 @@
+﻿@* <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <LINK REL="SHORTCUT ICON" href="~/logo.ico">
+    <title>@ViewData["Title"]</title>
+    <partial name="Partial/_Styles">
+    
+</head>
+<body>
+   
+    @using Microsoft.AspNetCore.Identity
+    @inject SignInManager<IdentityUser> SignInManager
+    @inject UserManager<IdentityUser> UserManager
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @await Component.InvokeAsync("LoggedUser")
+    }
+
+   
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SADA</a>
+                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarColor02">
+                    <partial name="Partial/_MenuBar" />
+                </div>
+                
+                <partial name="Partial/_LoginPartial" />
+                
+            </div>
+        <nav/>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            <partial name="_TempData" />
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted bg-dark">
+        <p style="margin-left:10px; color: gray">
+            &copy; @DateTime.Now.Year - SADA 
+        </p>
+    </footer>
+
+    <partial name="Partial/_Scripts">
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+ *@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 7]><html class="ie ie7"><![endif]-->
+<!--[if IE 8]><html class="ie ie8"><![endif]-->
+<!--[if IE 9]><html class="ie ie9"><![endif]-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="favicon.png" rel="icon">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>Candel Bliss</title>
+   
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700%7CLibre+Baskerville:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="~/Admin/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Admin/plugins/furniture-icon/style.css">
+    <link rel="stylesheet" href="~/Admin/plugins/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Admin/plugins/owl-carousel/assets/owl.carousel.css">
+    <link rel="stylesheet" href="~/Admin/plugins/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="~/Admin/plugins/jquery-bar-rating/dist/themes/fontawesome-stars.css">
+    <link rel="stylesheet" href="~/Admin/plugins/slick/slick/slick.css">
+    <link rel="stylesheet" href="~/Admin/plugins/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="~/Admin/plugins/lightGallery-master/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="~/Admin/css/style.css">
+    <!--HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
+    <!--WARNING: Respond.js doesn't work if you view the page via file://-->
+    <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
+    <partial name="Partial/_Styles">
+</head>
+<!--[if IE 7]><body class="ie7 lt-ie8 lt-ie9 lt-ie10"><![endif]-->
+<!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
+<!--[if IE 9]><body class="ie9 lt-ie10"><![endif]-->
+<body>
+    @using Microsoft.AspNetCore.Identity
+    @inject SignInManager<IdentityUser> SignInManager
+    @inject UserManager<IdentityUser> UserManager
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @await Component.InvokeAsync("LoggedUser")
+    }
+
+    <div class="header--sidebar"></div>
+    <!--  Header-->
+    <header class="header" data-sticky="true">
+        <div class="header__top">
+            <div class="ps-container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12 ">
+                        <p>460 West 34th Street, 15th floor, New York  -  Hotline: 804-377-3580 - 804-399-3580</p><i class="furniture-market"></i>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right">
+                        <div class=" header__login-partial">
+
+                             <partial name="Partial/_LoginPartial" />
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navigation">
+            <div class="ps-container">
+                <a class="ps-logo" href="index-2.html"><img src="~/Admin/images/logo.png" alt=""></a>
+                <ul class="main-menu menu">
+                    
+                        <partial name="Partial/_MenuBar" />
+                    
+                </ul>
+                <div class="menu-toggle"><span></span></div>
+                <div class="ps-cart">
+                    <a class="ps-cart__toggle" href="#"><span><i>20</i></span><img src="~/Admin/images/market.svg" alt=""></a>
+                    <div class="ps-cart__listing">
+                        <div class="ps-cart__content">
+                            <div class="ps-cart-item">
+                                <a class="ps-cart-item__close" href="#"></a>
+                                <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="~/Admin/images/shopping-cart/1.jpg" alt=""></div>
+                                <div class="ps-cart-item__content">
+                                    <a class="ps-cart-item__title" href="product-detail.html">Kingsman</a>
+                                    <p><span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span></p>
+                                </div>
+                            </div>
+                            <div class="ps-cart-item">
+                                <a class="ps-cart-item__close" href="#"></a>
+                                <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="~/Admin/images/shopping-cart/2.jpg" alt=""></div>
+                                <div class="ps-cart-item__content">
+                                    <a class="ps-cart-item__title" href="product-detail.html">Joseph</a>
+                                    <p><span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span></p>
+                                </div>
+                            </div>
+                            <div class="ps-cart-item">
+                                <a class="ps-cart-item__close" href="#"></a>
+                                <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="~/Admin/images/shopping-cart/3.jpg" alt=""></div>
+                                <div class="ps-cart-item__content">
+                                    <a class="ps-cart-item__title" href="product-detail.html">Todd Snyder</a>
+                                    <p><span>Quantity:<i>12</i></span><span>Total:<i>£176</i></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ps-cart__total">
+                            <p>Number of items:<span>36</span></p>
+                            <p>Item Total:<span>£528.00</span></p>
+                        </div>
+                        <div class="ps-cart__footer"><a class="ps-btn" href="cart.html">Check out<i class="furniture-next"></i></a></div>
+                    </div>
+                </div>
+                <form class="ps-form--search" action="http://warethemes.com/html/flourish/do_action" method="post">
+                    <i class="furniture-search"></i>
+                    <input class="form-control" type="text" placeholder="Find product">
+                    <button>Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    
+    
+ 
+    
+    <div class="container">
+        <main role="main" class="pb-3">
+            <partial name="_TempData" />
+            @RenderBody()
+        </main>
+    </div>
+    
+    
+    
+    <footer class="ps-footer site-footer">
+        <div class="ps-footer__content">
+            <div class="ps-container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                        <div class="ps-site-info site-info">
+                            <a class="ps-logo" href="index-2.html"><img src="images/logo.png" alt=""></a>
+                            <p>Furniture is a global shop destination for 20-somethings. We sell cutting-edge fashion and offer a wide variety of fashion-related content, making Furniture Store the hub of a thriving fashion community.</p>
+                            <div class="ps-site-info__contact">
+                                <h4>Contact Info</h4>
+                                <p>460 West 34th Street, 15th floor, New York</p>
+                                <p>(+84 ) 7534 9773, (+84 ) 874 548</p>
+                            </div>
+                            <ul class="ps-social">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                <div class="widget widget_footer widget_worktime">
+                                    <h2 class="widget-title">Working Hour<span></span></h2>
+                                    <p>Monday - Friday <br> 08:00 am - 08:30 pm</p><p> ==== </p>
+                                    <p>Satuday - Sunday <br> 10:00 am - 4:30 pm</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                <div class="ps-widget ps-widget--footer widget widget_footer">
+                                    <h2 class="widget-title">Our Brand<span></span></h2>
+                                    <ul class="ps-list--line">
+                                        <li><a href="#">DKNY</a></li>
+                                        <li><a href="#">Gucci</a></li>
+                                        <li><a href="#">Banana & Dolce</a></li>
+                                        <li><a href="#">Hermer</a></li>
+                                        <li><a href="#">Chanel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                                <div class="ps-widget ps-widget--footer widget widget_footer">
+                                    <h2 class="widget-title">Your Account<span></span></h2>
+                                    <ul class="ps-list--line">
+                                        <li><a href="#">Your account</a></li>
+                                        <li><a href="#">Newsletter</a></li>
+                                        <li><a href="#">Information</a></li>
+                                        <li><a href="#">Payment menthod</a></li>
+                                        <li><a href="#">Your wishlist</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ps-footer__copyright">
+            <div class="ps-container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-7 col-sm-12 col-xs-12 ">
+                        <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></p>
+                    </div>
+                    <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12 ">
+                        <div class="ps-footer__payment-methods"><a href="#"><img src="~/Admin/images/payment-method/paypal.png" alt=""></a><a href="#"><img src="images/payment-method/visa.png" alt=""></a><a href="#"><img src="images/payment-method/master-card.png" alt=""></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="ps-loading">
+        <div class="loader ">
+            <div class="loader__item"></div>
+            <div class="loader__item"></div>
+            <div class="loader__item"></div>
+            <div class="loader__item"></div>
+            <div class="loader__item"></div>
+        </div>
+    </div>
+    <script src="~/Admin/plugins/jquery.min.js"></script>
+    <script src="~/Admin/plugins/lightGallery-master/dist/js/lightgallery-all.min.js"></script>
+    <script src="~/Admin/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Admin/plugins/owl-carousel/owl.carousel.min.js"></script>
+    <script src="~/Admin/plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/Admin/plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
+    <script src="~/Admin/plugins/imagesloaded.pkgd.js"></script>
+    <script src="~/Admin/plugins/masonry.pkgd.min.js"></script>
+    <script src="~/Admin/plugins/isotope.pkgd.min.js"></script>
+    <script src="~/Admin/plugins/slick/slick/slick.min.js"></script>
+    <script src="~/Admin/plugins/jquery.matchHeight-min.js"></script>
+    <script src="~/Admin/plugins/elevatezoom/jquery.elevatezoom.js"></script>
+    <script src="~/Admin/plugins/gmap3.min.js"></script>
+    <script src="~/Admin/plugins/jquery-ui/jquery-ui.min.js"></script>
+   
+    <script src="~/Admin/js/main.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsUcTjt43mTheN9ruCsQVgBE-wgN6_AfY&amp;region=GB"></script>
+
+    <partial name="Partial/_Scripts">
+        @await RenderSectionAsync("Scripts", required: false)
+</body>
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+</html>
