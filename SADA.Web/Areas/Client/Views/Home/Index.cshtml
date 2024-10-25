@@ -32,7 +32,8 @@
 	}
 </div>
  *@
- @model IEnumerable<Product>;
+ @model ProductCategory
+ 
 @{
     ViewData["Title"] = "SADA";
 }
@@ -79,10 +80,16 @@
         </div>
         <div class="ps-section__content ps-col-tiny">
             <div class="row">
-                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
-                    <div class="ps-block--category" data-mh="category"><a class="ps-block__overlay" href="#"></a><i class="furniture-sofa-2"></i><a href="product-listing.html">Sofa &amp; Chair</a></div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+                @foreach (var category in Model.Categories)
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+                        <div class="ps-block--category" data-mh="category"><a asp-action="Index" asp-route-categoryId="@category.Id" class="ps-block__overlay"></a><i class="bi bi-eyedropper"></i><a href="product-listing.html"></a>@category.Name</div>
+                    </div>
+
+                   
+                }
+                
+               @*  <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
                     <div class="ps-block--category" data-mh="category"><a class="ps-block__overlay" href="#"></a><i class="furniture-desk-2"></i><a href="product-listing.html">Cooking</a></div>
                 </div>
                 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
@@ -114,7 +121,7 @@
                 </div>
                 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
                     <div class="ps-block--category" data-mh="category"><a class="ps-block__overlay" href="#"></a><i class="furniture-desk2"></i><a href="product-listing.html">Table</a></div>
-                </div>
+                </div> *@
             </div>
         </div>
         <div class="ps-section__footer text-center"><a class="ps-btn" href="#">View all categories</a></div>
@@ -126,10 +133,19 @@
         <div class="ps-section__header text-center">
             <p>Choose your need item</p>
             <h3 class="ps-section__title">BEST OUR PRODUCT</h3><span class="ps-section__line"></span>
+            @* <form method="get" asp-area="Client" asp-controller="Home" asp-action="Index">
+                <input type="text" name="search" placeholder="Search products..." />
+                <button type="submit">Search</button>
+            </form> *@
+            <form class="ps-form--search" method="get" asp-area="Client" asp-controller="Home" asp-action="Index">
+            <i class="furniture-search"></i>
+                <input class="form-control" type="text" name="search" placeholder="Search products...">
+                <button type="submit">Search</button>
+            </form>
         </div>
         <div class="ps-section__content mt-100">
             <div class="row">
-                @foreach(var product in Model)
+                @foreach(var product in Model.Products)
 	{
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
 

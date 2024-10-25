@@ -57,7 +57,7 @@
 </html>
  *@
 
-
+ 
 
 <!DOCTYPE html>
 <!--[if IE 7]><html class="ie ie7"><![endif]-->
@@ -78,7 +78,7 @@
     <title>Candel Bliss</title>
    
 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700%7CLibre+Baskerville:400,700" rel="stylesheet">
+    @* <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700%7CLibre+Baskerville:400,700" rel="stylesheet"> *@
     <link rel="stylesheet" href="~/Admin/plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/Admin/plugins/furniture-icon/style.css">
     <link rel="stylesheet" href="~/Admin/plugins/bootstrap/dist/css/bootstrap.min.css">
@@ -101,7 +101,7 @@
     @using Microsoft.AspNetCore.Identity
     @inject SignInManager<IdentityUser> SignInManager
     @inject UserManager<IdentityUser> UserManager
-
+    
     @if (SignInManager.IsSignedIn(User))
     {
         @await Component.InvokeAsync("LoggedUser")
@@ -118,7 +118,7 @@
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 text-right">
                         <div class=" header__login-partial">
-
+                            
                              <partial name="Partial/_LoginPartial" />
                             
                         </div>
@@ -128,15 +128,26 @@
         </div>
         <nav class="navigation">
             <div class="ps-container">
-                <a class="ps-logo" href="index-2.html"><img src="~/Admin/images/product/logo.png" alt=""></a>
-                <ul class="main-menu menu">
+                <a class="ps-logo" asp-area="Client" asp-controller="Home" asp-action="Index"><img src="~/Admin/images/product/logo.png" alt=""></a>
+                @* <a class="ps-logo" href="index-2.html"> *@@* <img src="~/Admin/images/product/logo.png" alt=""> *@@* </a> *@
+
+
+               
+
+                        
                     
-                        <partial name="Partial/_MenuBar" />
                     
-                </ul>
-                <div class="menu-toggle"><span></span></div>
+                
+                <div class="menu-toggle"><span><partial name="Partial/_MenuBar" /></span></div>
                 <div class="ps-cart">
-                    <a class="ps-cart__toggle" href="#"><span><i>20</i></span><img src="~/Admin/images/market.svg" alt=""></a>
+                    @* <a class="ps-cart__toggle" href="#"><span><i>20</i></span><img src="~/Admin/images/market.svg" alt=""></a> *@
+                    @* <a class=" ps-cart__toggle" asp-area="Client" asp-controller="Cart" asp-action="Index" <span><i>@await Component.InvokeAsync("ShoppingCart")</i></span><img src="~/Admin/images/market.svg"  >>
+                        
+                    </a> *@
+                    <a  asp-area="Client" asp-controller="Cart" asp-action="Index">
+                        @await Component.InvokeAsync("ShoppingCart")
+                       
+                    </a>
                     <div class="ps-cart__listing">
                         <div class="ps-cart__content">
                             <div class="ps-cart-item">
@@ -171,11 +182,12 @@
                         <div class="ps-cart__footer"><a class="ps-btn" href="cart.html">Check out<i class="furniture-next"></i></a></div>
                     </div>
                 </div>
-                <form class="ps-form--search" action="http://warethemes.com/html/flourish/do_action" method="post">
+                @* <form class="ps-form--search" action="http://warethemes.com/html/flourish/do_action" method="post">
                     <i class="furniture-search"></i>
                     <input class="form-control" type="text" placeholder="Find product">
                     <button>Search</button>
-                </form>
+                </form> *@
+                
             </div>
         </nav>
     </header>
@@ -293,9 +305,11 @@
     <partial name="Partial/_Scripts">
         @await RenderSectionAsync("Scripts", required: false)
 </body>
-<style>
+
+
+@* <style>
     a {
         text-decoration: none;
     }
-</style>
+</style> *@
 </html>
