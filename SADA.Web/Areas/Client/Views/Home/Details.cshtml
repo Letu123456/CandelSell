@@ -145,25 +145,25 @@
                         </div>
 
                             <h1>@Model.Product.Name</h1>
-                        <p class="ps-product__category"><a href="#">  Men shoes Table home</a>,<a href="#">  Chair</a>,<a href="#">  Sofa & Chair</a></p>
+                        <p class="ps-product__category"><a href="#"> Lavender</a>,<a href="#">  Vanilla</a>,<a href="#">  Rose</a></p>
                         <h3 class="ps-product__price">
                              @if (Model.Product.OnSale)
                                 {
                                     <input asp-for="Price" hidden value=@(Model.Product.Price - Model.Product.DiscountAmount) />
-                                    <del><span>@Model.Product.Price.ToString("N")  </span></del>
-                                    <span>@(Model.Product.Price - Model.Product.DiscountAmount)</span>
+                                    <del><span>@Model.Product.Price.ToString("N2")đ  </span></del>
+                                    <span>@((Model.Product.Price - Model.Product.DiscountAmount).ToString("N2"))₫</span>
 
                              }
                              else
 
                             {
                                 <input asp-for="Price" hidden value=@Model.Product.Price />
-                                <span>@Model.Product.Price</span> 
-                        
-                            }
+                                    <span>@Model.Product.Price.ToString("N2")đ</span>
+
+                                }
                         </h3>
                         <div class="ps-product__short-desc">
-                            <p>Stow linens and serveware in the dining room or add extra storage space to the entryway with this auburn cherry-finished cabinet ...</p>
+                            <p>@Model.Product.Description</p>
                         </div>
                        
                                 <div class="ps-product__block ps-product__style">

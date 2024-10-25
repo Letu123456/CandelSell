@@ -1,2 +1,6 @@
 ﻿@model int
-<i class="bi bi-cart"></i> &nbsp; (@Model)
+@* <i  class="bi bi-cart"  <img src="~/Admin/images/market.svg" ></i> &nbsp; (@Model) *@
+<span  style="display: inline-flex; align-items: center;">
+    <img src="~/Admin/images/market.svg" alt="Cart Icon" style="vertical-align: middle;" />
+    <span style="position: relative; top: -12px;">&nbsp; (@Model)</span>
+</span> 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace SADA.Web.Areas.Client.Controllers;
 
@@ -14,30 +15,78 @@ public class HomeController : Controller
         _unitOfWorks = unitOfWork;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(string? search,int? categoryId)
+    {
+        IEnumerable<Product> productsList;
+        IEnumerable<Category> categoriesList;
+
+        if (!string.IsNullOrEmpty(search)&&categoryId==null)
+        {
+            Expression<Func<Product, bool>> criteria = p =>
+                p.Name.Contains(search) ;
+
+            productsList = _unitOfWorks.Product.GetAll(
+                includeProperties: "Category",
+                orderBy: p => p.Id,
+                orderByDirection: SD.Descending,
+                criteria: criteria);
+        }
+        else if (categoryId != null) 
+        {
+            Expression<Func<Product, bool>> criteria = p =>
+                    p.Category.Id == categoryId ;
+
+            productsList = _unitOfWorks.Product.GetAll(
+                includeProperties: "Category",
+                orderBy: p => p.Id,
+                orderByDirection: SD.Descending,
+                criteria: criteria);
+        }else
+        {
+            productsList = _unitOfWorks.Product.GetAll(
+                includeProperties: "Category",
+                orderBy: p => p.Id,
+                orderByDirection: SD.Descending);
+        }
+        
+        categoriesList = _unitOfWorks.Category.GetAll(orderBy: p => p.Id,
+                orderByDirection: SD.Descending);
+
+        var viewModel = new ProductCategory
+        {
+            Products = productsList,
+            Categories = categoriesList
+        };
+
+        return View(viewModel);
+    }
+
+    public IActionResult Category()
     {
         
+            IEnumerable<Category> categoryList = _unitOfWorks.Category.GetAll(
+                      
+                       orderBy: p => p.Id, orderByDirection: SD.Descending
+                       );
+        
 
-        IEnumerable<Product> productsList = _unitOfWorks.Product.GetAll(
-            includeProperties: "Category", 
-            orderBy: p => p.Id, orderByDirection: SD.Descending
-            );
-        return View(productsList);  
-    }
+    
+
+       
+        return View(categoryList);
+}
+//public IActionResult Tinhdau()
+//{
 
 
-    public IActionResult Tinhdau()
-    {
+//    IEnumerable<Product> productsList = _unitOfWorks.Product.GetAll(
+//        includeProperties: "Category",
+//        orderBy: p => p.Id, orderByDirection: SD.Descending, criteria: p => p.CategoryId == 1
+//        );
+//    return View(productsList);
+//}
 
-
-        IEnumerable<Product> productsList = _unitOfWorks.Product.GetAll(
-            includeProperties: "Category",
-            orderBy: p => p.Id, orderByDirection: SD.Descending, criteria: p => p.CategoryId == 1
-            );
-        return View(productsList);
-    }
-
-    [HttpGet]
+[HttpGet]
     public IActionResult Details(int productId)
     {
         if (HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser) == null)

@@ -32,7 +32,8 @@
 	}
 </div>
  *@
- @model IEnumerable<Product>;
+ @model ProductCategory
+ 
 @{
     ViewData["Title"] = "SADA";
 }
@@ -41,7 +42,7 @@
     <div class="ps-product--banner" style="margin-top:-75px" >
         <div class="ps-product__thumbnail"><a href="#"><img src="~/Admin/images/product/item30.png" alt="" style="width: 100%; height: auto; object-fit: cover;"></a></div>
         <div class="ps-product__content">
-            <h3>STOCKHOLM 2017</h3>
+            <h3>Lavender Scented Candle</h3>
             <select class="ps-rating">
                 <option value="1">1</option>
                 <option value="1">2</option>
@@ -49,15 +50,15 @@
                 <option value="1">4</option>
                 <option value="2">5</option>
             </select>
-            <p>Dressed in soft velvet, extra deep and wonderfully spacious. Also, lots of loose cushions that give comfort and support, for however you prefer to sit or lie down. A sofa to long for and enjoy for years.</p>
-            <h4><del> $300 </del> $155</h4>
+            <p>Lavender-scented candles offer a soft, calming aroma from lavender flowers. This scent is popular for its relaxing properties, helping to reduce stress, anxiety, and promote a sense of peace. Lavender's fragrance is also known for its ability to support sleep, making it easier to fall into a deep and restful sleep.</p>
+            <h4><del> 300đ </del> 155đ</h4>
             <div class="ps-product__actions"><a class="ps-btn" href="cart.html">Add to cart</a><a href="product-detail.html">More info</a></div>
         </div>
     </div>
     <div class="ps-product--banner">
         <div class="ps-product__thumbnail"><a href="#"><img src="~/Admin/images//product/item34.png" alt="" style="width: 100%; height: auto; object-fit: cover;"></a></div>
         <div class="ps-product__content">
-            <h3>STOCKHOLM 2017</h3>
+            <h3>Vanilla Scented Candle</h3>
             <select class="ps-rating">
                 <option value="1">1</option>
                 <option value="1">2</option>
@@ -65,7 +66,7 @@
                 <option value="1">4</option>
                 <option value="2">5</option>
             </select>
-            <p>Dressed in soft velvet, extra deep and wonderfully spacious. Also, lots of loose cushions that give comfort and support, for however you prefer to sit or lie down. A sofa to long for and enjoy for years.</p>
+            <p>A vanilla-scented candle offers a warm, sweet, and comforting aroma reminiscent of baked goods and homey memories. The vanilla scent is often used to create a cozy, relaxing atmosphere, soothing the mind and evoking feelings of comfort. It's also known for its mood-boosting properties, helping to ease fatigue and stress</p>
             <h4><del> $300 </del> $155</h4>
             <div class="ps-product__actions"><a class="ps-btn" href="cart.html">Add to cart</a><a href="product-detail.html">More info</a></div>
         </div>
@@ -79,10 +80,16 @@
         </div>
         <div class="ps-section__content ps-col-tiny">
             <div class="row">
-                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
-                    <div class="ps-block--category" data-mh="category"><a class="ps-block__overlay" href="#"></a><i class="furniture-sofa-2"></i><a href="product-listing.html">Sofa &amp; Chair</a></div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+                @foreach (var category in Model.Categories)
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
+                        <div class="ps-block--category" data-mh="category"><a asp-action="Index" asp-route-categoryId="@category.Id" class="ps-block__overlay"></a><i class="bi bi-eyedropper"></i><a href="product-listing.html"></a>@category.Name</div>
+                    </div>
+
+                   
+                }
+                
+               @*  <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
                     <div class="ps-block--category" data-mh="category"><a class="ps-block__overlay" href="#"></a><i class="furniture-desk-2"></i><a href="product-listing.html">Cooking</a></div>
                 </div>
                 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
@@ -114,7 +121,7 @@
                 </div>
                 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ">
                     <div class="ps-block--category" data-mh="category"><a class="ps-block__overlay" href="#"></a><i class="furniture-desk2"></i><a href="product-listing.html">Table</a></div>
-                </div>
+                </div> *@
             </div>
         </div>
         <div class="ps-section__footer text-center"><a class="ps-btn" href="#">View all categories</a></div>
@@ -126,10 +133,19 @@
         <div class="ps-section__header text-center">
             <p>Choose your need item</p>
             <h3 class="ps-section__title">BEST OUR PRODUCT</h3><span class="ps-section__line"></span>
+            @* <form method="get" asp-area="Client" asp-controller="Home" asp-action="Index">
+                <input type="text" name="search" placeholder="Search products..." />
+                <button type="submit">Search</button>
+            </form> *@
+            <form class="ps-form--search" method="get" asp-area="Client" asp-controller="Home" asp-action="Index">
+            <i class="furniture-search"></i>
+                <input class="form-control" type="text" name="search" placeholder="Search products...">
+                <button type="submit">Search</button>
+            </form>
         </div>
         <div class="ps-section__content mt-100">
             <div class="row">
-                @foreach(var product in Model)
+                @foreach(var product in Model.Products)
 	{
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
 
@@ -155,7 +171,7 @@
                                     </select><a class="ps-product__title" href="product-detail-2.html">@product.Name</a>
                                 <div class="ps-product__categories"><a href="product-listing.html">Armchair</a></div>
                                 <p class="ps-product__price">
-                                        @product.Price.ToString("c")
+                                        @product.Price.ToString("N2")đ
                                     </p><a asp-action="Details"  asp-route-productId="@product.Id" class="ps-btn ps-btn--sm" >Detail</a>
                                 <p class="ps-product__feature"><i class="furniture-delivery-truck-2"></i>Free Shipping in 24 hours</p>
                             </div>
@@ -170,7 +186,7 @@
                                 </select><a class="ps-product__title" href="product-detail-2.html">@product.Name</a>
                                 <div class="ps-product__categories"><a href="product-listing.html">Armchair</a></div>
                                 <p class="ps-product__price">
-                                    <del>£220</del>@product.Price.ToString("c")
+                                    @* <del>220</del> *@@product.Price.ToString("N2")đ
                                 </p>
                             </div>
                     </div>
@@ -186,12 +202,12 @@
 
 @* List product *@
 <div class="ps-home-features">
-    <div class="ps-section__left bg--parallax" data-background="~/Admin/images/background/home-feature.jpg">
+    <div class="ps-section__left bg--parallax" data-background="~/Admin/images/product/item14.png">
         <div class="ps-video"><a class="popup-youtube" href="https://www.youtube.com/watch?v=kJQP7kiw5Fk"><img src="~/Admin/images/play.png" alt=""></a></div>
     </div>
     <div class="ps-section__right">
         <div class="ps-section__content">
-            <h4>Dream homes for everybody</h4>
+            <h4>Scented Candle for everybody</h4>
             <p class="mb-40">If you’re planning a stag do in Birmingham, you’d almost have to include some sporting activities. After all, Sport England has awarded Birmingham the title National City of Sport.</p>
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
@@ -208,25 +224,7 @@
         </div>
     </div>
 </div>
-<div class="ps-section ps-home-collection">
-    <div class="ps-container">
-        <div class="ps-section__header text-center">
-            <p>Just only Deccember</p>
-            <h3 class="ps-section__title">DEAL OF THE MONTH</h3><span class="ps-section__line"></span>
-        </div>
-        <div class="ps-section__content">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                    <div class="ps-collection"><a href="#"><img src="~/Admin/images/collection/home-1-2.png" alt=""></a></div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                    <div class="ps-collection"><a href="#"><img src="~/Admin/images/collection/home-1.jpg" alt=""></a></div>
-                </div>
-            </div>
-        </div>
-        <div class="ps-section__footer pt-50"><a href="#"><img src="~/Admin/images/collection/sale.jpg" alt=""></a></div>
-    </div>
-</div>
+
 <div class="ps-section ps-home-blog">
     <div class="ps-container">
         <div class="ps-section__header text-center">
@@ -237,7 +235,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 ">
                     <div class="ps-post--inside">
-                        <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/post/home-1.jpg" alt=""></div>
+                        <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/product/item18.jpg" alt=""></div>
                         <div class="ps-post__content">
                             <span class="ps-post__meta">By <a href="#"> Athony</a> / February 12, 2017</span><a class="ps-post__title" href="blog-detail.html">Johnston Marklee redesign of the Museum of Contemporary Art Chicago</a>
                             <p>Fond his say old meet cold find come whom. <br> The sir park sake bred.</p><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
@@ -248,7 +246,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                             <div class="ps-post--inside small" data-mh="small">
-                                <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/post/home-2.jpg" alt=""></div>
+                                <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/product/item15.jpg" alt=""></div>
                                 <div class="ps-post__content">
                                     <span class="ps-post__meta">By <a href="#">Athony</a>  / February 12, 2017</span><a class="ps-post__title" href="blog-detail.html">First residential project in the Czech Republic</a><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
                                 </div>
@@ -256,7 +254,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                             <div class="ps-post--inside small" data-mh="small">
-                                <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/post/home-3.jpg" alt=""></div>
+                                <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/product/item19.jpg" alt=""></div>
                                 <div class="ps-post__content">
                                     <span class="ps-post__meta">By <a href="#">Athony</a>  / February 12, 2017</span><a class="ps-post__title" href="blog-detail.html">An uplifting refit for a London</a><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
                                 </div>
@@ -264,7 +262,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                             <div class="ps-post--inside small" data-mh="small">
-                                <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/post/home-4.jpg" alt=""></div>
+                                <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/product/item17.jpg" alt=""></div>
                                 <div class="ps-post__content">
                                     <span class="ps-post__meta">By <a href="#">Athony</a>  / February 12, 2017</span><a class="ps-post__title" href="blog-detail.html">A duplex penthouse atop the Nova Building</a><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
                                 </div>
@@ -272,7 +270,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                             <div class="ps-post--inside small" data-mh="small">
-                                <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/post/home-5.jpg" alt=""></div>
+                                <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="#"></a><img src="~/Admin/images/product/item16.jpg" alt=""></div>
                                 <div class="ps-post__content">
                                     <span class="ps-post__meta">By <a href="#">Athony</a>  / February 12, 2017</span><a class="ps-post__title" href="blog-detail.html">Restored Casa Vicens reopens in Barcelona</a><a class="ps-post__morelink" href="blog-detail.html">Read more</a>
                                 </div>
